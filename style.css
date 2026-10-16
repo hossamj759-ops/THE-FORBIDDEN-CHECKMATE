@@ -187,3 +187,54 @@ footer {
         letter-spacing: 1px;
     }
 }
+/* ===== FORBIDDEN CHECKMATE: THEMES ===== */
+
+:root {
+    --square-light: #38244f;
+    --square-dark: #100b18;
+    --piece-glow: #d8bdff;
+    --board-edge: #b69b70;
+}
+
+.chessboard {
+    border: 4px solid var(--board-edge);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+        0 0 15px rgba(174, 130, 255, 0.25),
+        0 12px 25px rgba(0, 0, 0, 0.7),
+        inset 0 0 12px rgba(0, 0, 0, 0.8);
+    transform: perspective(1000px) rotateX(2deg);
+}
+
+.square.light {
+    background: linear-gradient(145deg, var(--square-light), #21152e);
+}
+
+.square.dark {
+    background: linear-gradient(145deg, var(--square-dark), #08060d);
+}
+
+.square {
+    transition: background 0.25s, box-shadow 0.25s;
+}
+
+.square:hover {
+    box-shadow: inset 0 0 18px var(--piece-glow);
+}
+
+/* Olive theme */
+body[data-theme="olive"] {
+    --square-light: #667044;
+    --square-dark: #171b12;
+    --piece-glow: #d9e6a0;
+    --board-edge: #a9ad78;
+}
+
+/* Blue and white theme */
+body[data-theme="blue"] {
+    --square-light: #e5edf8;
+    --square-dark: #263d65;
+    --piece-glow: #8ecbff;
+    --board-edge: #9fc8f5;
+}
