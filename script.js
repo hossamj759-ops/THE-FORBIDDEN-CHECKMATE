@@ -1,10 +1,20 @@
+// ======================================
 // THE FORBIDDEN CHECKMATE
-// A mysterious chess game ♟️
+// ======================================
 
 const chess = new Chess();
 
 const boardElement = document.getElementById("board");
+const boardFrame = document.getElementById("boardFrame");
+
 const messageElement = document.querySelector(".message");
+const turnMessageElement = document.querySelector(".turn-message");
+
+const lightningOverlay = document.getElementById("lightningOverlay");
+const captureFlash = document.getElementById("captureFlash");
+
+const resetButton = document.getElementById("resetButton");
+const themeButtons = document.querySelectorAll("[data-set-theme]");
 
 let selectedSquare = null;
 let legalMoves = [];
@@ -18,6 +28,7 @@ const symbols = {
         n: "♘",
         p: "♙"
     },
+
     b: {
         k: "♚",
         q: "♛",
@@ -28,7 +39,10 @@ const symbols = {
     }
 };
 
-// Draw the chessboard
+// ======================================
+// RENDER BOARD
+// ======================================
+
 function renderBoard() {
     boardElement.innerHTML = "";
 
@@ -42,30 +56,44 @@ function renderBoard() {
             const rank = 8 - rowIndex;
             const squareName = file + rank;
 
-            square.className =
-                "square " +
-                ((rowIndex + colIndex) % 2 === 0
-                    ? "light"
-                    : "dark");
+            const isLight = (rowIndex + colIndex) % 2 === 0;
+
+            square.className = "square " + (isLight ? "light" : "dark");
 
             square.dataset.square = squareName;
 
+            // Draw the chess piece.
             if (piece) {
-                square.textContent =
+                const pieceElement = document.createElement("span");
+
+                pieceElement.className =
+                    "piece " +
+                    (piece.color === "w" ? "white-piece" : "black-piece");
+
+                pieceElement.textContent =
                     symbols[piece.color][piece.type];
+
+                pieceElement.setAttribute("aria-label", piece.type);
+
+                square.appendChild(pieceElement);
             }
 
+            // Highlight selected square.
             if (squareName === selectedSquare) {
-                square.style.outline =
-                    "3px solid #d8bdff";
-                square.style.outlineOffset = "-3px";
+                square.classList.add("selected");
             }
 
-            if (legalMoves.some(move =>
-                move.to === squareName
-            )) {
-                square.style.boxShadow =
-                    "inset 0 0 0 4px #c5a66a";
+            // Highlight legal moves.
+            const matchingMove = legalMoves.find(
+                move => move.to === squareName
+            );
+
+            if (matchingMove) {
+                if (matchingMove.captured || matchingMove.flags.includes("e")) {
+                    square.classList.add("capture-target");
+                } else {
+                    square.classList.add("legal-move");
+                }
             }
 
             square.addEventListener("click", () => {
@@ -79,34 +107,45 @@ function renderBoard() {
     updateMessage();
 }
 
-// Handle clicks and legal moves
+// ======================================
+// HANDLE MOVES
+// ======================================
+
 function handleSquareClick(squareName) {
     const piece = chess.get(squareName);
 
+    // If a piece is selected, check whether this is a legal move.
     if (selectedSquare) {
-        const move = legalMoves.find(
-            item => item.to === squareName
+        const chosenMove = legalMoves.find(
+            move => move.to === squareName
         );
 
-        if (move) {
+        if (chosenMove) {
             try {
-                chess.move({
+                // chess.js identifies captures, including en passant.
+                const moveResult = chess.move({
                     from: selectedSquare,
                     to: squareName,
                     promotion: "q"
                 });
+
+                if (moveResult && moveResult.captured) {
+                    playCaptureEffect();
+                }
 
                 selectedSquare = null;
                 legalMoves = [];
 
                 renderBoard();
                 return;
+
             } catch (error) {
-                console.log("Invalid move");
+                console.error("Invalid chess move:", error);
             }
         }
     }
 
+    // Select a piece belonging to the current player.
     if (piece && piece.color === chess.turn()) {
         selectedSquare = squareName;
 
@@ -115,16 +154,35 @@ function handleSquareClick(squareName) {
             verbose: true
         });
 
-        renderBoard();
     } else {
         selectedSquare = null;
         legalMoves = [];
-
-        renderBoard();
     }
+
+    renderBoard();
 }
 
-// Display the game status
+// ======================================
+// CAPTURE LIGHTNING EFFECT
+// ======================================
+
+function playCaptureEffect() {
+    // Restart the animation even if captures happen repeatedly.
+    boardFrame.classList.remove("capture-active");
+
+    void boardFrame.offsetWidth;
+
+    boardFrame.classList.add("capture-active");
+
+    window.setTimeout(() => {
+        boardFrame.classList.remove("capture-active");
+    }, 650);
+}
+
+// ======================================
+// UPDATE STATUS
+// ======================================
+
 function updateMessage() {
     if (chess.isCheckmate()) {
         messageElement.textContent =
@@ -148,9 +206,77 @@ function updateMessage() {
                 ? "White to move. Choose your piece."
                 : "Black to move. The shadows are waiting.";
     }
+
+    turnMessageElement.textContent =
+        chess.turn() === "w"
+            ? "WHITE TO MOVE"
+            : "BLACK TO MOVE";
 }
 
-// Start the game
+// ======================================
+// CHANGE COLOR THEMES
+// ======================================
+
+function setTheme(themeName) {
+    const allowedThemes = ["purple", "olive", "blue"];
+
+    if (!allowedThemes.includes(themeName)) {
+        return;
+    }
+
+    document.body.dataset.theme = themeName;
+
+    themeButtons.forEach(button => {
+        const isActive = button.dataset.setTheme === themeName;
+
+        button.classList.toggle("active", isActive);
+
+        button.setAttribute("aria-pressed", String(isActive));
+    });
+
+    try {
+        localStorage.setItem("forbiddenCheckmateTheme", themeName);
+    } catch (error) {
+        console.log("Theme preference could not be saved.");
+    }
+}
+
+themeButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        setTheme(button.dataset.setTheme);
+    });
+});
+
+// Restore the previously selected theme.
+try {
+    const savedTheme = localStorage.getItem("forbiddenCheckmateTheme");
+
+    if (savedTheme) {
+        setTheme(savedTheme);
+    }
+} catch (error) {
+    console.log("Using the default theme.");
+}
+
+// ======================================
+// RESET GAME
+// ======================================
+
+resetButton.addEventListener("click", () => {
+    chess.reset();
+
+    selectedSquare = null;
+    legalMoves = [];
+
+    boardFrame.classList.remove("capture-active");
+
+    renderBoard();
+});
+
+// ======================================
+// START
+// ======================================
+
 renderBoard();
 
 console.log("The Forbidden Checkmate has awakened.");
