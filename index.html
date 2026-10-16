@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#100d18">
-
-    <meta name="description"
-          content="An ancient chess game hides a mystery. Every move reveals a secret.">
+    <meta name="description" content="An ancient chess game hides a mystery. Every move reveals a secret.">
 
     <title>The Forbidden Checkmate</title>
 
-    <!-- External stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-theme="purple">
 
     <main class="game-container">
 
@@ -26,53 +19,74 @@
 
         <header>
             <h1>THE FORBIDDEN CHECKMATE</h1>
-
-            <p class="subtitle">
-                AN ANCIENT GAME • A FORGOTTEN MYSTERY
-            </p>
+            <p class="subtitle">AN ANCIENT GAME • A FORGOTTEN MYSTERY</p>
         </header>
 
         <div class="divider"></div>
 
-        <section class="story" aria-label="The story">
-
+        <section class="story">
             <p class="intro">
-                Beyond the last candle, where forgotten spells
-                whisper and shadows remember, an ancient
-                chessboard awaits its final player.
+                Beyond the last candle, where forgotten spells whisper
+                and shadows remember, an ancient chessboard awaits its final player.
             </p>
 
             <p class="intro">
-                Every move reveals a secret.
-                Every piece tells a story.
+                Every move reveals a secret. Every piece tells a story.
             </p>
-
         </section>
 
-        <section class="game" aria-label="Chess game">
+        <section class="game">
 
             <div class="game-status" aria-live="polite">
                 <span class="status-icon">✧</span>
-
-                <p class="message">
-                    The ancient game awaits...
-                </p>
+                <p class="message">The ancient game awaits...</p>
             </div>
 
-            <div class="board-frame">
+            <div class="theme-panel">
+                <p class="theme-title">CHOOSE YOUR REALM</p>
 
-                <div
-                    class="chessboard"
-                    id="board"
-                    role="group"
-                    aria-label="Chessboard">
+                <div class="theme-buttons">
+                    <button class="theme-button active"
+                            data-set-theme="purple">
+                        <span class="theme-swatch purple-swatch"></span>
+                        PURPLE
+                    </button>
+
+                    <button class="theme-button"
+                            data-set-theme="olive">
+                        <span class="theme-swatch olive-swatch"></span>
+                        OLIVE
+                    </button>
+
+                    <button class="theme-button"
+                            data-set-theme="blue">
+                        <span class="theme-swatch blue-swatch"></span>
+                        BLUE
+                    </button>
+                </div>
+            </div>
+
+            <div class="board-frame" id="boardFrame">
+
+                <div class="chessboard"
+                     id="board"
+                     role="group"
+                     aria-label="Chessboard">
                 </div>
 
+                <div class="lightning-overlay" id="lightningOverlay"
+                     aria-hidden="true"></div>
+
+                <div class="capture-flash" id="captureFlash"
+                     aria-hidden="true"></div>
+
             </div>
 
-            <p class="turn-message">
-                WHITE MOVES FIRST
-            </p>
+            <p class="turn-message">WHITE MOVES FIRST</p>
+
+            <button class="reset-button" id="resetButton">
+                ↻ NEW GAME
+            </button>
 
         </section>
 
@@ -82,12 +96,8 @@
 
     </main>
 
-    <!-- Chess rules library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-
-    <!-- Our game logic -->
     <script src="script.js"></script>
 
 </body>
-
 </html>
