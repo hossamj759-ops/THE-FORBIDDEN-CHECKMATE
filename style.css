@@ -1,12 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
 
+/* =========================
+   THEME VARIABLES
+========================= */
+
 :root {
     --midnight: #080710;
-    --purple: #45334f;
+    --background-glow: #30213f;
+
+    --square-light: #38244f;
+    --square-dark: #100b18;
+
+    --piece-white: #fff0d0;
+    --piece-black: #171020;
+
+    --piece-glow: #d8bdff;
+    --board-edge: #c5a66a;
+
     --gold: #c5a66a;
     --parchment: #e8d9b5;
     --mist: #a99abf;
+
+    --button-background: #21152e;
 }
+
+/* Purple theme */
+
+body[data-theme="purple"] {
+    --square-light: #49315f;
+    --square-dark: #100b18;
+
+    --piece-white: #fff0d0;
+    --piece-black: #171020;
+
+    --piece-glow: #d8bdff;
+    --board-edge: #c5a66a;
+
+    --background-glow: #30213f;
+    --button-background: #21152e;
+}
+
+/* Olive theme */
+
+body[data-theme="olive"] {
+    --square-light: #697747;
+    --square-dark: #171b12;
+
+    --piece-white: #f2edcf;
+    --piece-black: #202419;
+
+    --piece-glow: #d9e6a0;
+    --board-edge: #a9ad78;
+
+    --background-glow: #303a24;
+    --button-background: #202819;
+}
+
+/* Blue and white theme */
+
+body[data-theme="blue"] {
+    --square-light: #edf3fc;
+    --square-dark: #29466f;
+
+    --piece-white: #ffffff;
+    --piece-black: #101d35;
+
+    --piece-glow: #8ecbff;
+    --board-edge: #9fc8f5;
+
+    --background-glow: #233c65;
+    --button-background: #172b49;
+}
+
+/* =========================
+   GLOBAL
+========================= */
 
 * {
     box-sizing: border-box;
@@ -15,56 +83,86 @@
 body {
     margin: 0;
     min-height: 100vh;
-    padding: 35px 16px;
+    padding: 30px 14px;
+
     text-align: center;
     font-family: 'Cinzel', serif;
+
     color: var(--parchment);
 
     background:
-        radial-gradient(ellipse at 50% 0%, #30213f 0%, transparent 55%),
-        linear-gradient(160deg, #100d18, var(--midnight));
+        radial-gradient(
+            ellipse at 50% 0%,
+            var(--background-glow) 0%,
+            transparent 58%
+        ),
+        linear-gradient(
+            160deg,
+            #100d18,
+            var(--midnight)
+        );
+
+    transition: background 0.5s ease;
 }
 
-/* The mysterious moon */
+button {
+    font-family: inherit;
+}
+
+/* =========================
+   MOON
+========================= */
 
 .moon {
-    font-size: 42px;
+    font-size: 44px;
     color: var(--gold);
-    text-shadow: 0 0 20px #b99aff;
+
+    text-shadow:
+        0 0 10px var(--piece-glow),
+        0 0 25px var(--piece-glow);
+
     animation: moonGlow 4s ease-in-out infinite alternate;
 }
 
 @keyframes moonGlow {
     from {
-        text-shadow: 0 0 8px #9b7ac7;
+        filter: brightness(0.8);
     }
 
     to {
-        text-shadow: 0 0 30px #c5a6ff;
+        filter: brightness(1.4);
     }
 }
 
-/* Game title */
+/* =========================
+   TITLE
+========================= */
 
 h1 {
-    font-size: clamp(25px, 6vw, 43px);
+    font-size: clamp(24px, 6vw, 43px);
     letter-spacing: 3px;
     line-height: 1.5;
+
     color: var(--parchment);
-    text-shadow: 0 0 18px #79559c;
+
+    text-shadow:
+        0 0 12px var(--piece-glow),
+        0 0 25px #79559c;
 }
 
 .subtitle {
     color: var(--mist);
-    font-size: 11px;
-    letter-spacing: 3px;
+    font-size: 10px;
+    letter-spacing: 2px;
     line-height: 2;
 }
 
 .divider {
-    width: 110px;
+    width: 120px;
     height: 1px;
+
     margin: 24px auto;
+
     background: linear-gradient(
         90deg,
         transparent,
@@ -73,106 +171,507 @@ h1 {
     );
 }
 
-/* The mysterious story */
+/* =========================
+   STORY
+========================= */
 
 .intro {
     max-width: 520px;
-    margin: 0 auto 30px;
-    font-size: 13px;
+
+    margin: 0 auto 20px;
+
+    font-size: 12px;
     line-height: 2.2;
+
     color: #d0c4d9;
 }
 
-/* Chessboard frame */
+/* =========================
+   GAME STATUS
+========================= */
 
-.board-frame {
-    width: min(100%, 460px);
-    margin: 0 auto;
-    padding: 8px;
+.game-status {
+    min-height: 55px;
 
-    background: #15101d;
-    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.status-icon {
+    color: var(--gold);
+    font-size: 22px;
+
+    text-shadow: 0 0 12px var(--piece-glow);
+}
+
+.message {
+    margin: 15px auto;
+
+    color: var(--mist);
+
+    font-size: 12px;
+    line-height: 2;
+}
+
+/* =========================
+   THEME BUTTONS
+========================= */
+
+.theme-panel {
+    margin: 20px auto;
+}
+
+.theme-title {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.theme-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+
+    margin-top: 12px;
+}
+
+.theme-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 9px 12px;
+
+    border: 1px solid #65566f;
+    border-radius: 5px;
+
+    background: var(--button-background);
+    color: var(--parchment);
+
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.theme-button:hover {
+    transform: translateY(-2px);
+    border-color: var(--piece-glow);
+
+    box-shadow: 0 0 12px var(--piece-glow);
+}
+
+.theme-button.active {
+    border-color: var(--gold);
 
     box-shadow:
-        0 0 20px #000,
-        0 0 35px #76509530,
-        inset 0 0 15px #000;
+        0 0 8px var(--piece-glow),
+        inset 0 0 8px #ffffff10;
 }
 
-/* The chessboard */
+.theme-swatch {
+    width: 15px;
+    height: 15px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+    border: 1px solid #ffffff70;
+}
+
+.purple-swatch {
+    background: linear-gradient(135deg, #49315f 50%, #100b18 50%);
+}
+
+.olive-swatch {
+    background: linear-gradient(135deg, #697747 50%, #171b12 50%);
+}
+
+.blue-swatch {
+    background: linear-gradient(135deg, #edf3fc 50%, #29466f 50%);
+}
+
+/* =========================
+   BOARD FRAME
+========================= */
+
+.board-frame {
+    position: relative;
+
+    width: min(100%, 460px);
+
+    margin: 10px auto 0;
+    padding: 9px;
+
+    border: 2px solid var(--board-edge);
+    border-radius: 7px;
+
+    background:
+        linear-gradient(145deg, #332742, #100c16);
+
+    box-shadow:
+        0 0 12px #000000aa,
+        0 0 28px var(--piece-glow),
+        0 18px 30px #000000a0,
+        inset 0 0 12px #000000;
+
+    transform: perspective(1000px) rotateX(2deg);
+
+    transition:
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+}
+
+/* =========================
+   CHESSBOARD
+========================= */
 
 .chessboard {
+    position: relative;
+    z-index: 1;
+
     display: grid;
     grid-template-columns: repeat(8, minmax(0, 1fr));
+
     width: 100%;
     aspect-ratio: 1;
-    border: 1px solid #8b7657;
+
+    overflow: hidden;
+
+    border: 1px solid #00000080;
 }
 
-/* Chess squares */
+/* =========================
+   SQUARES
+========================= */
 
 .square {
+    position: relative;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    aspect-ratio: 1;
     min-width: 0;
+    aspect-ratio: 1;
 
-    font-family: serif;
-    font-size: clamp(22px, 7vw, 43px);
+    font-family: 'DejaVu Sans', 'Arial Unicode MS', serif;
+    font-size: clamp(22px, 7.4vw, 43px);
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        background 0.25s ease,
+        box-shadow 0.2s ease;
 }
 
-.light {
-    background: #d8c9aa;
-    color: #21162b;
+.square.light {
+    background:
+        linear-gradient(
+            145deg,
+            var(--square-light),
+            color-mix(in srgb, var(--square-light) 75%, black)
+        );
 }
 
-.dark {
-    background: #45334f;
-    color: #f0e4c9;
+.square.dark {
+    background:
+        linear-gradient(
+            145deg,
+            var(--square-dark),
+            #000000
+        );
 }
 
-/* Chess pieces */
+/* Hover glow */
+
+.square:hover {
+    box-shadow: inset 0 0 14px var(--piece-glow);
+}
+
+/* =========================
+   CHESS PIECES
+========================= */
 
 .piece {
+    position: relative;
+    z-index: 2;
+
+    display: inline-block;
+
+    line-height: 1;
+
     cursor: pointer;
     user-select: none;
 
+    transform: translateY(-2px);
+
     transition:
-        filter 0.25s ease,
-        transform 0.25s ease;
+        transform 0.2s ease,
+        filter 0.2s ease;
 }
 
-.piece:hover {
-    filter: drop-shadow(0 0 6px #e5c8ff);
-    transform: scale(1.08);
+.piece.white-piece {
+    color: var(--piece-white);
+
+    text-shadow:
+        0 2px 0 #b8a88c,
+        0 4px 0 #82745f,
+        0 6px 4px #00000090,
+        0 0 7px #fff0d080;
 }
 
-/* Mystery message */
+.piece.black-piece {
+    color: var(--piece-black);
 
-.message {
-    margin: 24px auto;
-    color: var(--mist);
-    font-size: 12px;
-    line-height: 2.2;
+    text-shadow:
+        0 1px 0 #8e83a0,
+        0 3px 0 #08060d,
+        0 5px 5px #000000c0,
+        0 0 5px var(--piece-glow);
 }
 
-/* Footer */
+.square:hover .piece {
+    transform: translateY(-4px) scale(1.08);
+
+    filter: drop-shadow(
+        0 0 6px var(--piece-glow)
+    );
+}
+
+/* Selected piece */
+
+.square.selected {
+    box-shadow:
+        inset 0 0 0 3px var(--piece-glow),
+        inset 0 0 18px var(--piece-glow);
+}
+
+/* Legal move marker */
+
+.square.legal-move::after {
+    content: "";
+
+    position: absolute;
+
+    width: 24%;
+    height: 24%;
+
+    border-radius: 50%;
+
+    background: #c5a66a99;
+    box-shadow: 0 0 8px var(--gold);
+}
+
+/* Capture destination marker */
+
+.square.capture-target::after {
+    content: "";
+
+    position: absolute;
+    inset: 4%;
+
+    border: 3px solid var(--gold);
+    border-radius: 50%;
+
+    box-shadow:
+        inset 0 0 8px var(--piece-glow),
+        0 0 8px var(--piece-glow);
+}
+
+/* =========================
+   LIGHTNING EFFECT
+========================= */
+
+.lightning-overlay,
+.capture-flash {
+    position: absolute;
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+    opacity: 0;
+}
+
+.lightning-overlay {
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 35%,
+            #ffffff 47%,
+            #c6a8ff 49%,
+            #ffffff 51%,
+            transparent 63%
+        );
+
+    clip-path: polygon(
+        50% 0%,
+        57% 0%,
+        44% 35%,
+        57% 35%,
+        35% 75%,
+        42% 48%,
+        31% 48%
+    );
+
+    filter: drop-shadow(0 0 12px #ffffff);
+
+    mix-blend-mode: screen;
+}
+
+.capture-flash {
+    background:
+        radial-gradient(
+            circle at center,
+            #ffffffd9 0%,
+            var(--piece-glow) 18%,
+            transparent 72%
+        );
+
+    mix-blend-mode: screen;
+}
+
+.board-frame.capture-active {
+    animation: boardShock 0.55s ease-out;
+}
+
+.board-frame.capture-active .lightning-overlay {
+    animation: lightningStrike 0.55s ease-out;
+}
+
+.board-frame.capture-active .capture-flash {
+    animation: captureFlash 0.55s ease-out;
+}
+
+@keyframes lightningStrike {
+    0%, 100% {
+        opacity: 0;
+    }
+
+    10%, 20%, 36%, 48% {
+        opacity: 1;
+    }
+
+    15%, 30%, 42% {
+        opacity: 0.15;
+    }
+
+    55% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes captureFlash {
+    0%, 100% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.9;
+    }
+
+    40% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes boardShock {
+    0%, 100% {
+        transform: perspective(1000px) rotateX(2deg) translateX(0);
+    }
+
+    20% {
+        transform: perspective(1000px) rotateX(2deg) translateX(-3px);
+    }
+
+    40% {
+        transform: perspective(1000px) rotateX(2deg) translateX(3px);
+    }
+
+    60% {
+        transform: perspective(1000px) rotateX(2deg) translateX(-1px);
+    }
+}
+
+/* =========================
+   TURN MESSAGE
+========================= */
+
+.turn-message {
+    margin: 20px auto;
+
+    color: var(--gold);
+
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* =========================
+   RESET BUTTON
+========================= */
+
+.reset-button {
+    margin: 8px auto 20px;
+    padding: 11px 20px;
+
+    color: var(--parchment);
+    background: var(--button-background);
+
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.reset-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 0 14px var(--piece-glow);
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 footer {
-    margin-top: 45px;
-    color: #786c86;
-    font-size: 10px;
+    margin-top: 35px;
+
+    color: #9486a0;
+
+    font-size: 9px;
     letter-spacing: 2px;
     line-height: 2;
 }
 
-/* Small screens */
+/* =========================
+   SMALL SCREENS
+========================= */
 
 @media (max-width: 380px) {
     body {
-        padding: 25px 10px;
+        padding: 22px 8px;
     }
 
     .board-frame {
@@ -186,55 +685,21 @@ footer {
     h1 {
         letter-spacing: 1px;
     }
-}
-/* ===== FORBIDDEN CHECKMATE: THEMES ===== */
 
-:root {
-    --square-light: #38244f;
-    --square-dark: #100b18;
-    --piece-glow: #d8bdff;
-    --board-edge: #b69b70;
+    .theme-button {
+        padding: 8px;
+        font-size: 9px;
+    }
 }
 
-.chessboard {
-    border: 4px solid var(--board-edge);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow:
-        0 0 15px rgba(174, 130, 255, 0.25),
-        0 12px 25px rgba(0, 0, 0, 0.7),
-        inset 0 0 12px rgba(0, 0, 0, 0.8);
-    transform: perspective(1000px) rotateX(2deg);
-}
+/* Respect reduced motion preferences */
 
-.square.light {
-    background: linear-gradient(145deg, var(--square-light), #21152e);
-}
-
-.square.dark {
-    background: linear-gradient(145deg, var(--square-dark), #08060d);
-}
-
-.square {
-    transition: background 0.25s, box-shadow 0.25s;
-}
-
-.square:hover {
-    box-shadow: inset 0 0 18px var(--piece-glow);
-}
-
-/* Olive theme */
-body[data-theme="olive"] {
-    --square-light: #667044;
-    --square-dark: #171b12;
-    --piece-glow: #d9e6a0;
-    --board-edge: #a9ad78;
-}
-
-/* Blue and white theme */
-body[data-theme="blue"] {
-    --square-light: #e5edf8;
-    --square-dark: #263d65;
-    --piece-glow: #8ecbff;
-    --board-edge: #9fc8f5;
-}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+        }
