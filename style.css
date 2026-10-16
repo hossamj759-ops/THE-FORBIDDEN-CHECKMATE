@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
+
+:root {
+    --midnight: #080710;
+    --purple: #45334f;
+    --gold: #c5a66a;
+    --parchment: #e8d9b5;
+    --mist: #a99abf;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 35px 16px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    color: var(--parchment);
+
+    background:
+        radial-gradient(ellipse at 50% 0%, #30213f 0%, transparent 55%),
+        linear-gradient(160deg, #100d18, var(--midnight));
+}
+
+/* The mysterious moon */
+
+.moon {
+    font-size: 42px;
+    color: var(--gold);
+    text-shadow: 0 0 20px #b99aff;
+    animation: moonGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+    from {
+        text-shadow: 0 0 8px #9b7ac7;
+    }
+
+    to {
+        text-shadow: 0 0 30px #c5a6ff;
+    }
+}
+
+/* Game title */
+
+h1 {
+    font-size: clamp(25px, 6vw, 43px);
+    letter-spacing: 3px;
+    line-height: 1.5;
+    color: var(--parchment);
+    text-shadow: 0 0 18px #79559c;
+}
+
+.subtitle {
+    color: var(--mist);
+    font-size: 11px;
+    letter-spacing: 3px;
+    line-height: 2;
+}
+
+.divider {
+    width: 110px;
+    height: 1px;
+    margin: 24px auto;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--gold),
+        transparent
+    );
+}
+
+/* The mysterious story */
+
+.intro {
+    max-width: 520px;
+    margin: 0 auto 30px;
+    font-size: 13px;
+    line-height: 2.2;
+    color: #d0c4d9;
+}
+
+/* Chessboard frame */
+
+.board-frame {
+    width: min(100%, 460px);
+    margin: 0 auto;
+    padding: 8px;
+
+    background: #15101d;
+    border: 1px solid var(--gold);
+
+    box-shadow:
+        0 0 20px #000,
+        0 0 35px #76509530,
+        inset 0 0 15px #000;
+}
+
+/* The chessboard */
+
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid #8b7657;
+}
+
+/* Chess squares */
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    aspect-ratio: 1;
+    min-width: 0;
+
+    font-family: serif;
+    font-size: clamp(22px, 7vw, 43px);
+}
+
+.light {
+    background: #d8c9aa;
+    color: #21162b;
+}
+
+.dark {
+    background: #45334f;
+    color: #f0e4c9;
+}
+
+/* Chess pieces */
+
+.piece {
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+        filter 0.25s ease,
+        transform 0.25s ease;
+}
+
+.piece:hover {
+    filter: drop-shadow(0 0 6px #e5c8ff);
+    transform: scale(1.08);
+}
+
+/* Mystery message */
+
+.message {
+    margin: 24px auto;
+    color: var(--mist);
+    font-size: 12px;
+    line-height: 2.2;
+}
+
+/* Footer */
+
+footer {
+    margin-top: 45px;
+    color: #786c86;
+    font-size: 10px;
+    letter-spacing: 2px;
+    line-height: 2;
+}
+
+/* Small screens */
+
+@media (max-width: 380px) {
+    body {
+        padding: 25px 10px;
+    }
+
+    .board-frame {
+        padding: 5px;
+    }
+
+    .square {
+        font-size: 7vw;
+    }
+
+    h1 {
+        letter-spacing: 1px;
+    }
+}
