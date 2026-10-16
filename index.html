@@ -1,103 +1,441 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#100d18">
-    <meta name="description" content="An ancient chess game hides a mystery. Every move reveals a secret.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE FORBIDDEN CHECKMATE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box}
+:root{--bg:#090711;--panel:#15101f;--panel2:#1b1427;--gold:#d9b76d;--gold-bright:#f6dda0;--gold-dim:#80663b;--ink:#eee6d7;--muted:#a69bb2;--tile-light:#c9b8a0;--tile-dark:#382846;--tile-light-text:#33233d;--tile-dark-text:#f4e8d6;--glow:rgba(166,95,255,.22);--accent:#a77bda;--border:rgba(217,183,109,.34)}
+body[data-theme="emerald"]{--bg:#07100d;--panel:#101d18;--panel2:#172820;--tile-light:#c6c5a0;--tile-dark:#294a3a;--accent:#7dc9a2;--glow:rgba(68,190,130,.2);--border:rgba(198,188,111,.35)}
+body[data-theme="ice"]{--bg:#07101a;--panel:#101c2b;--panel2:#172638;--tile-light:#d2dce5;--tile-dark:#30465e;--accent:#8cc9f4;--glow:rgba(90,170,255,.2);--border:rgba(165,203,233,.35)}
+html{min-height:100%;background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:'Cairo',sans-serif;background:radial-gradient(ellipse at 50% 15%,var(--glow),transparent 45%),linear-gradient(135deg,#08060e,var(--bg) 45%,#0a0811);overflow-x:hidden}
+button,select,input{font:inherit}button{cursor:pointer}
+.ambient{position:fixed;pointer-events:none;filter:blur(70px);opacity:.16;border-radius:50%;z-index:0}.ambient-one{width:300px;height:300px;background:var(--accent);top:10%;left:-120px}.ambient-two{width:260px;height:260px;background:var(--gold);bottom:5%;right:-120px}
+.page-shell{position:relative;z-index:1;max-width:1500px;margin:auto;padding:20px 28px 14px}
+.topbar{display:flex;align-items:center;gap:13px;border-bottom:1px solid rgba(217,183,109,.18);padding:0 0 17px}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border:1px solid var(--gold-dim);color:var(--gold-bright);font-size:24px;transform:rotate(45deg);box-shadow:0 0 22px var(--glow)}.brand-mark::first-letter{transform:rotate(-45deg)}.brand-copy{flex:1}.brand-name{font:700 18px 'Cinzel',serif;letter-spacing:2px;color:#f1e4c9}.brand-name span{color:var(--gold)}.brand-tag{font:10px 'Cinzel',serif;letter-spacing:3px;color:var(--muted);margin-top:4px}.top-actions{display:flex;gap:8px}.icon-button{width:35px;height:35px;border:1px solid var(--border);background:#100d19;color:var(--gold);border-radius:50%;font-size:17px}
+.hero{text-align:center;padding:24px 0 23px}.eyebrow{font:10px 'Cinzel',serif;letter-spacing:4px;color:var(--gold);display:flex;align-items:center;justify-content:center;gap:13px}.eyebrow span{width:35px;height:1px;background:var(--gold-dim)}h1{font:700 clamp(24px,3vw,39px) 'Cinzel',serif;letter-spacing:3px;margin:11px 0 6px;text-shadow:0 0 25px var(--glow)}h1 em{font-style:normal;color:var(--gold-bright)}.hero p{color:var(--muted);font-size:12px;letter-spacing:.5px;margin:0}
+.game-layout{display:grid;grid-template-columns:minmax(205px, .82fr) minmax(350px,1.38fr) minmax(205px,.82fr);gap:22px;align-items:start}.side-panel{background:linear-gradient(145deg,rgba(28,21,40,.97),rgba(13,10,20,.96));border:1px solid var(--border);padding:17px 15px;min-width:0;box-shadow:0 12px 35px rgba(0,0,0,.2);position:relative}.side-panel:before{content:"";position:absolute;inset:4px;border:1px solid rgba(255,255,255,.025);pointer-events:none}.panel-heading{font:700 11px 'Cinzel',serif;letter-spacing:1.6px;color:var(--gold-bright);display:flex;align-items:center;gap:8px;margin-bottom:14px}.tiny-gem{color:var(--accent);font-size:10px}
+.theme-option{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:10px 8px;background:transparent;border:1px solid transparent;color:var(--ink);margin-bottom:5px}.theme-option.active{border-color:var(--border);background:rgba(255,255,255,.035)}.theme-option>span:nth-child(2){flex:1}.theme-option b{display:block;font-size:11px;font-weight:700}.theme-option small{display:block;font-size:9px;color:var(--muted);margin-top:2px}.theme-swatch{width:27px;height:27px;display:block;border:1px solid rgba(255,255,255,.25);transform:rotate(45deg);flex-shrink:0}.swatch-violet{background:linear-gradient(135deg,#d8c7a6 0 50%,#382846 50%)}.swatch-emerald{background:linear-gradient(135deg,#c6c5a0 0 50%,#294a3a 50%)}.swatch-ice{background:linear-gradient(135deg,#d2dce5 0 50%,#30465e 50%)}.check{opacity:0;color:var(--gold)}.theme-option.active .check{opacity:1}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:17px 0}.select-label{display:block;color:#a99caf;font:9px 'Cinzel',serif;letter-spacing:1.5px;margin:12px 0 6px}.fantasy-select,.room-row input{width:100%;background:#0d0a15;color:var(--ink);border:1px solid rgba(217,183,109,.25);padding:10px;font-size:11px;outline:none}.fantasy-select:focus,.room-row input:focus{border-color:var(--gold)}.fantasy-select option{background:#15101f}.gold-button{width:100%;margin-top:18px;padding:12px 8px;background:linear-gradient(100deg,#b58a48,#f0d89b,#b58a48);border:1px solid #f5dfa6;color:#21172b;font:800 10px 'Cinzel',serif;letter-spacing:1px;box-shadow:0 0 18px rgba(217,183,109,.13);transition:transform .2s,filter .2s}.gold-button:hover{filter:brightness(1.1);transform:translateY(-1px)}.online-box{margin-top:14px;padding-top:4px}.room-row{display:flex;gap:5px}.room-row button{background:var(--panel2);color:var(--gold);border:1px solid var(--border);font-size:9px;padding:0 8px}.online-box p{font-size:10px;line-height:1.6;color:var(--muted)}.hidden{display:none!important}
+.board-column{min-width:0}.player-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:linear-gradient(90deg,rgba(35,25,49,.95),rgba(16,12,25,.95));border:1px solid rgba(217,183,109,.2);min-height:60px}.opponent-card{margin-bottom:11px}.human-card{margin-top:11px}.avatar{width:38px;height:38px;display:grid;place-items:center;font-size:26px;color:#d7c7e7;background:linear-gradient(145deg,#382846,#171020);border:1px solid var(--border);box-shadow:inset 0 0 12px var(--glow)}.human-avatar{color:#f0d89b;background:linear-gradient(145deg,#51402c,#171020)}.player-info{flex:1;min-width:0}.player-info b{display:block;font:700 11px 'Cinzel',serif;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-info small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.player-badge{font:9px 'Cinzel',serif;letter-spacing:1px;color:var(--gold);border:1px solid var(--border);padding:5px 7px}
+.board-frame{position:relative;padding:19px;background:linear-gradient(135deg,#b9904d,#43304e 24%,#171020 45%,#8e6b3f 75%,#1a1123);border:1px solid #c3a15d;box-shadow:0 0 0 3px #171020,0 0 0 4px rgba(217,183,109,.45),0 18px 35px rgba(0,0,0,.5),0 0 35px var(--glow);perspective:900px}.board-frame:after{content:"";position:absolute;inset:6px;border:1px solid rgba(246,221,160,.27);pointer-events:none}.chessboard{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));aspect-ratio:1;position:relative;z-index:1;box-shadow:0 14px 20px rgba(0,0,0,.38);transform:rotateX(1deg)}.square{aspect-ratio:1;display:grid;place-items:center;position:relative;user-select:none;min-width:0;transition:filter .15s}.square.light{background:linear-gradient(135deg,var(--tile-light),color-mix(in srgb,var(--tile-light),#fff 12%))}.square.dark{background:linear-gradient(135deg,var(--tile-dark),color-mix(in srgb,var(--tile-dark),#000 20%))}.square.selected{box-shadow:inset 0 0 0 4px #f4d778,inset 0 0 22px #e7b94e;z-index:2}.square.legal:after{content:"";position:absolute;width:22%;height:22%;border-radius:50%;background:rgba(246,221,160,.75);box-shadow:0 0 10px rgba(246,221,160,.5)}.square.legal:has(.piece):after{width:88%;height:88%;background:transparent;border:4px solid rgba(246,221,160,.75);box-shadow:inset 0 0 12px rgba(246,221,160,.4)}.square.last-move{background-image:linear-gradient(rgba(246,207,100,.25),rgba(246,207,100,.25))}.square.check-square{box-shadow:inset 0 0 0 4px #e85e69,inset 0 0 20px #b92740}.piece{position:relative;z-index:1;font-family:'DejaVu Sans',serif;font-size:clamp(24px,3.2vw,47px);line-height:1;display:block;transform:translateY(-2px);transition:transform .15s,filter .15s;filter:drop-shadow(0 4px 2px rgba(0,0,0,.55))}.square:hover .piece{transform:translateY(-5px);filter:drop-shadow(0 6px 4px rgba(0,0,0,.65))}.white-piece{color:#fff0c9;text-shadow:0 1px 0 #fff,1px 2px 0 #8d6e3b,2px 3px 0 #5e452d,0 0 9px rgba(255,226,154,.5);-webkit-text-stroke:.35px #7e5b32}.black-piece{color:#241a30;text-shadow:0 1px 0 #9b7cb4,1px 2px 0 #0c0710,2px 4px 0 #050308,0 0 9px var(--glow);-webkit-text-stroke:.4px #a78bc0}.square.light .piece.black-piece{color:#25162f}.square.dark .piece.white-piece{color:#fff0c9}.board-coordinates,.files-bottom,.ranks-left{position:absolute;color:#e8d49d;font:9px 'Cinzel',serif;letter-spacing:1px;z-index:2}.files-top{left:19px;right:19px;top:5px;display:flex;justify-content:space-around}.files-bottom{left:19px;right:19px;bottom:4px;display:flex;justify-content:space-around}.ranks-left{top:19px;bottom:19px;left:5px;display:flex;flex-direction:column;justify-content:space-around}.board-rune{position:absolute;color:#f2d28b;z-index:3;text-shadow:0 0 9px #e9b84e;font-size:18px}.rune-top{top:1px;right:3px}.rune-bottom{bottom:0;left:3px}.board-controls{display:flex;gap:7px;margin-top:10px}.subtle-button{flex:1;background:#171020;border:1px solid rgba(217,183,109,.28);color:#d9cba9;font:9px 'Cinzel',serif;letter-spacing:.4px;padding:9px 4px}.subtle-button:hover{background:#241831;border-color:var(--gold)}
+.status-box{display:flex;align-items:center;gap:10px;padding:12px;background:rgba(7,6,12,.45);border:1px solid rgba(217,183,109,.17);margin-bottom:17px}.status-orb{width:10px;height:10px;border-radius:50%;background:#9bdb9a;box-shadow:0 0 12px #65b66a;flex-shrink:0}.status-box small{display:block;font:9px 'Cinzel',serif;letter-spacing:1.2px;color:var(--muted);margin-bottom:4px}.status-box b{font-size:11px;font-weight:600}.subheading{display:flex;justify-content:space-between;align-items:center;color:#b7a6c8;font:9px 'Cinzel',serif;letter-spacing:.8px}.subheading span{color:var(--gold)}.captured-pieces{min-height:36px;padding:7px 0;color:#d9c8e5;font-size:23px;letter-spacing:2px;word-break:break-word}.captured-section{margin-bottom:8px}.move-history{height:155px;overflow:auto;border:1px solid rgba(217,183,109,.13);background:rgba(5,4,9,.35);padding:8px;margin-top:7px}.empty-history{font-size:10px;color:var(--muted);line-height:1.7}.move-row{display:grid;grid-template-columns:22px 1fr 1fr;gap:4px;font:10px 'Cinzel',serif;padding:5px 2px;border-bottom:1px solid rgba(255,255,255,.04)}.move-number{color:var(--gold-dim)}.move-white,.move-black{color:#e4d7c4}.legend-note{display:flex;gap:8px;align-items:flex-start;margin-top:18px;padding:10px;border-left:2px solid var(--gold-dim);background:rgba(217,183,109,.035)}.legend-note span{color:var(--gold);font-size:15px}.legend-note p{font-size:10px;font-style:italic;line-height:1.6;color:#b9a9c4;margin:0}
+.message{text-align:center;padding:10px;color:var(--gold-bright);font-size:12px}.lightning{position:fixed;inset:0;background:rgba(231,207,255,.16);opacity:0;pointer-events:none;z-index:20}.lightning.flash{animation:flash .45s ease-out}@keyframes flash{0%{opacity:0}15%{opacity:1}100%{opacity:0}}footer{text-align:center;padding:25px 0 8px;color:#6f647d;font:9px 'Cinzel',serif;letter-spacing:2px}footer span{color:var(--gold-dim)}.modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:rgba(3,2,7,.8);backdrop-filter:blur(6px);padding:20px}.modal-card{position:relative;width:min(420px,100%);padding:34px 28px;text-align:center;background:linear-gradient(145deg,#20152e,#0e0a16);border:1px solid var(--gold-dim);box-shadow:0 0 40px var(--glow)}.modal-symbol{font-size:32px;color:var(--gold)}.modal-card h2{font:700 20px 'Cinzel',serif;color:var(--gold-bright)}.modal-card p{font-size:12px;color:var(--muted);line-height:1.9}.modal-close{position:absolute;right:12px;top:8px;border:0;background:transparent;color:var(--gold);font-size:24px}
+@media(max-width:1050px){.game-layout{grid-template-columns:minmax(180px,.75fr) minmax(320px,1.25fr);gap:15px}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}.right-panel>.panel-heading:first-child,.right-panel>.divider,.right-panel>.panel-heading:nth-of-type(2),.move-history,.legend-note{grid-column:1/-1}.move-history{height:110px}.side-panel{padding:14px 12px}}
+@media(max-width:680px){.page-shell{padding:12px 12px 10px}.brand-name{font-size:13px;letter-spacing:1px}.brand-tag{font-size:8px;letter-spacing:1.5px}.brand-mark{width:34px;height:34px}.hero{padding:20px 0}.eyebrow{font-size:8px;letter-spacing:2px}h1{font-size:25px;letter-spacing:1px}.hero p{font-size:10px}.game-layout{grid-template-columns:1fr;gap:13px}.board-column{grid-row:1}.board-frame{padding:17px}.files-top{left:17px;right:17px}.files-bottom{left:17px;right:17px}.ranks-left{top:17px;bottom:17px}.piece{font-size:clamp(25px,8vw,42px)}.left-panel{grid-row:2}.right-panel{grid-row:3;grid-template-columns:1fr 1fr}.right-panel>.panel-heading:first-child,.right-panel>.divider,.right-panel>.panel-heading:nth-of-type(2),.move-history,.legend-note{grid-column:1/-1}.side-panel{padding:15px}.board-controls{gap:5px}.subtle-button{font-size:8px}.player-info b{font-size:10px}}
 
-    <title>The Forbidden Checkmate</title>
-
-    <link rel="stylesheet" href="style.css">
+  </style>
 </head>
+<body data-theme="violet">
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand-mark">✦</div>
+      <div class="brand-copy">
+        <div class="brand-name">THE FORBIDDEN <span>CHECKMATE</span></div>
+        <div class="brand-tag">A GAME OF SHADOWS & DESTINY</div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-button" id="soundBtn" aria-label="Sound">♫</button>
+        <button class="icon-button" id="helpBtn" aria-label="Help">?</button>
+      </div>
+    </header>
 
-<body data-theme="purple">
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span></span> THE KINGDOM AWAITS <span></span></div>
+        <h1>THE FORBIDDEN <em>CHECKMATE</em></h1>
+        <p>Every move writes a legend. Every sacrifice awakens a shadow.</p>
+      </section>
 
-    <main class="game-container">
+      <section class="game-layout">
+        <aside class="side-panel left-panel">
+          <div class="panel-heading"><span class="tiny-gem">◆</span> CHOOSE YOUR REALM</div>
+          <button class="theme-option active" data-theme-choice="violet">
+            <span class="theme-swatch swatch-violet"></span><span><b>Obsidian Moon</b><small>Violet · Gold · Shadow</small></span><span class="check">✓</span>
+          </button>
+          <button class="theme-option" data-theme-choice="emerald">
+            <span class="theme-swatch swatch-emerald"></span><span><b>Enchanted Grove</b><small>Emerald · Moss · Gold</small></span><span class="check">✓</span>
+          </button>
+          <button class="theme-option" data-theme-choice="ice">
+            <span class="theme-swatch swatch-ice"></span><span><b>Frozen Eclipse</b><small>Ice · Midnight · Silver</small></span><span class="check">✓</span>
+          </button>
 
-        <div class="moon" aria-hidden="true">☾</div>
+          <div class="divider"></div>
+          <div class="panel-heading"><span class="tiny-gem">◆</span> CHOOSE YOUR OPPONENT</div>
+          <label class="select-label" for="opponent">GAME MODE</label>
+          <select id="opponent" class="fantasy-select">
+            <option value="ai">Play vs AI</option>
+            <option value="local">Local Duel · 2 Players</option>
+            <option value="online">Play Online · Room Code</option>
+          </select>
+          <label class="select-label" for="difficulty">AI DIFFICULTY</label>
+          <select id="difficulty" class="fantasy-select">
+            <option value="1">Apprentice</option>
+            <option value="2" selected>Warden</option>
+            <option value="3">Shadowmaster</option>
+          </select>
+          <button id="startBtn" class="gold-button">✦ BEGIN THE DUEL</button>
+          <div id="onlineBox" class="online-box hidden">
+            <label class="select-label" for="roomCode">ROOM CODE</label>
+            <div class="room-row"><input id="roomCode" maxlength="8" placeholder="e.g. MOON7"><button id="copyRoom">COPY</button></div>
+            <p>Online mode needs a realtime server connection. This room-code panel is a visual placeholder until Firebase/Supabase is configured.</p>
+          </div>
+        </aside>
 
-        <header>
-            <h1>THE FORBIDDEN CHECKMATE</h1>
-            <p class="subtitle">AN ANCIENT GAME • A FORGOTTEN MYSTERY</p>
-        </header>
-
-        <div class="divider"></div>
-
-        <section class="story">
-            <p class="intro">
-                Beyond the last candle, where forgotten spells whisper
-                and shadows remember, an ancient chessboard awaits its final player.
-            </p>
-
-            <p class="intro">
-                Every move reveals a secret. Every piece tells a story.
-            </p>
+        <section class="board-column">
+          <div class="player-card opponent-card">
+            <div class="avatar">♛</div><div class="player-info"><b id="topPlayer">THE SHADOW KING</b><small id="topCaption">Computer opponent</small></div>
+            <div class="player-badge" id="topBadge">AI</div>
+          </div>
+          <div class="board-frame">
+            <div class="board-rune rune-top">✦</div>
+            <div class="board-rune rune-bottom">✧</div>
+            <div class="board-coordinates files-top"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div>
+            <div class="ranks-left"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+            <div id="board" class="chessboard" role="grid" aria-label="Chess board"></div>
+            <div class="files-bottom"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div>
+          </div>
+          <div class="player-card human-card">
+            <div class="avatar human-avatar">♚</div><div class="player-info"><b>THE LAST HEIR</b><small id="bottomCaption">Your turn to shape fate</small></div>
+            <div class="player-badge">YOU</div>
+          </div>
+          <div class="board-controls">
+            <button id="resetBtn" class="subtle-button">↻ RESET GAME</button>
+            <button id="flipBtn" class="subtle-button">⇅ FLIP BOARD</button>
+            <button id="hintBtn" class="subtle-button">✧ HINT</button>
+          </div>
         </section>
 
-        <section class="game">
-
-            <div class="game-status" aria-live="polite">
-                <span class="status-icon">✧</span>
-                <p class="message">The ancient game awaits...</p>
-            </div>
-
-            <div class="theme-panel">
-                <p class="theme-title">CHOOSE YOUR REALM</p>
-
-                <div class="theme-buttons">
-                    <button class="theme-button active"
-                            data-set-theme="purple">
-                        <span class="theme-swatch purple-swatch"></span>
-                        PURPLE
-                    </button>
-
-                    <button class="theme-button"
-                            data-set-theme="olive">
-                        <span class="theme-swatch olive-swatch"></span>
-                        OLIVE
-                    </button>
-
-                    <button class="theme-button"
-                            data-set-theme="blue">
-                        <span class="theme-swatch blue-swatch"></span>
-                        BLUE
-                    </button>
-                </div>
-            </div>
-
-            <div class="board-frame" id="boardFrame">
-
-                <div class="chessboard"
-                     id="board"
-                     role="group"
-                     aria-label="Chessboard">
-                </div>
-
-                <div class="lightning-overlay" id="lightningOverlay"
-                     aria-hidden="true"></div>
-
-                <div class="capture-flash" id="captureFlash"
-                     aria-hidden="true"></div>
-
-            </div>
-
-            <p class="turn-message">WHITE MOVES FIRST</p>
-
-            <button class="reset-button" id="resetButton">
-                ↻ NEW GAME
-            </button>
-
-        </section>
-
-        <footer>
-            SOME SECRETS SHOULD NEVER BE UNCOVERED
-        </footer>
-
+        <aside class="side-panel right-panel">
+          <div class="panel-heading"><span class="tiny-gem">◆</span> THE CHRONICLES</div>
+          <div class="status-box">
+            <div class="status-orb"></div><div><small>GAME STATUS</small><b id="status">The board is set.</b></div>
+          </div>
+          <div class="captured-section">
+            <div class="subheading">CAPTURED BY YOU <span id="youCaptureCount">0</span></div>
+            <div id="youCaptured" class="captured-pieces">—</div>
+          </div>
+          <div class="captured-section">
+            <div class="subheading">CAPTURED BY SHADOW <span id="aiCaptureCount">0</span></div>
+            <div id="aiCaptured" class="captured-pieces">—</div>
+          </div>
+          <div class="divider"></div>
+          <div class="panel-heading"><span class="tiny-gem">◆</span> MOVE HISTORY</div>
+          <div id="moveHistory" class="move-history"><p class="empty-history">Your legend begins with the first move.</p></div>
+          <div class="legend-note"><span>✦</span><p>“In this realm, even the smallest pawn may decide the fate of kings.”</p></div>
+        </aside>
+      </section>
+      <div id="message" class="message hidden" role="status"></div>
+      <footer>FORGED IN SHADOW · PLAY WITH HONOR · <span>NO DESTINY IS FINAL</span></footer>
     </main>
+  </div>
+  <div id="lightning" class="lightning"></div>
+  <div id="modal" class="modal hidden"><div class="modal-card"><button id="closeModal" class="modal-close">×</button><div class="modal-symbol">✦</div><h2 id="modalTitle">THE CHRONICLES</h2><p id="modalText">Choose your realm and begin the duel.</p></div></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script>
+/* THE FORBIDDEN CHECKMATE
+   Local chess + simple minimax AI. Online requires a realtime backend; the UI is prepared but not connected. */
+(() => {
+  const boardEl = document.getElementById('board');
+  const statusEl = document.getElementById('status');
+  const historyEl = document.getElementById('moveHistory');
+  const youCapturedEl = document.getElementById('youCaptured');
+  const aiCapturedEl = document.getElementById('aiCaptured');
+  const youCaptureCount = document.getElementById('youCaptureCount');
+  const aiCaptureCount = document.getElementById('aiCaptureCount');
+  const opponentSelect = document.getElementById('opponent');
+  const difficultySelect = document.getElementById('difficulty');
+  const onlineBox = document.getElementById('onlineBox');
+  const messageEl = document.getElementById('message');
+  const lightning = document.getElementById('lightning');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalText = document.getElementById('modalText');
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    <script src="script.js"></script>
+  if (typeof Chess === 'undefined') {
+    statusEl.textContent = 'Chess engine failed to load. Check internet connection.';
+    return;
+  }
+  const game = new Chess();
+  const glyph = {
+    w: { k:'♔', q:'♕', r:'♖', b:'♗', n:'♘', p:'♙' },
+    b: { k:'♚', q:'♛', r:'♜', b:'♝', n:'♞', p:'♟' }
+  };
+  const pieceValue = { p:100, n:320, b:335, r:500, q:900, k:20000 };
+  let selectedSquare = null;
+  let legalMoves = [];
+  let flipped = false;
+  let lastMove = null;
+  let capturedByWhite = [];
+  let capturedByBlack = [];
+  let thinking = false;
+  let mode = 'ai';
+  let soundOn = false;
 
+  function showMessage(text) {
+    messageEl.textContent = text;
+    messageEl.classList.remove('hidden');
+    clearTimeout(showMessage.timer);
+    showMessage.timer = setTimeout(() => messageEl.classList.add('hidden'), 3000);
+  }
+  function pieceAt(square) {
+    const file = square.charCodeAt(0) - 97;
+    const rank = Number(square[1]);
+    const board = game.board();
+    return board[8-rank][file];
+  }
+  function renderBoard() {
+    boardEl.innerHTML = '';
+    const files = flipped ? ['h','g','f','e','d','c','b','a'] : ['a','b','c','d','e','f','g','h'];
+    const ranks = flipped ? [1,2,3,4,5,6,7,8] : [8,7,6,5,4,3,2,1];
+    const checkedKing = game.in_check() ? findKingSquare(game.turn()) : null;
+    ranks.forEach((rank, rowIndex) => {
+      files.forEach((file, colIndex) => {
+        const squareName = file + rank;
+        const piece = pieceAt(squareName);
+        const square = document.createElement('button');
+        square.type = 'button';
+        square.className = 'square ' + ((rowIndex + colIndex) % 2 === 0 ? 'light' : 'dark');
+        square.dataset.square = squareName;
+        square.setAttribute('role', 'gridcell');
+        square.setAttribute('aria-label', squareName);
+        if (selectedSquare === squareName) square.classList.add('selected');
+        if (legalMoves.some(m => m.to === squareName)) square.classList.add('legal');
+        if (lastMove && (lastMove.from === squareName || lastMove.to === squareName)) square.classList.add('last-move');
+        if (checkedKing === squareName) square.classList.add('check-square');
+        if (piece) {
+          const span = document.createElement('span');
+          span.className = 'piece ' + (piece.color === 'w' ? 'white-piece' : 'black-piece');
+          span.textContent = glyph[piece.color][piece.type];
+          square.appendChild(span);
+        }
+        square.addEventListener('click', () => onSquareClick(squareName));
+        boardEl.appendChild(square);
+      });
+    });
+    renderStatus();
+  }
+  function findKingSquare(color) {
+    const b = game.board();
+    for (let r=0;r<8;r++) for(let f=0;f<8;f++) {
+      if (b[r][f] && b[r][f].type === 'k' && b[r][f].color === color)
+        return String.fromCharCode(97+f) + (8-r);
+    }
+    return null;
+  }
+  function renderStatus() {
+    let text = 'The board is set.';
+    if (game.in_checkmate()) text = game.turn() === 'w' ? 'Checkmate — Shadow claims the throne.' : 'Checkmate — you have won the realm!';
+    else if (game.in_stalemate()) text = 'Stalemate — the realm falls silent.';
+    else if (game.in_draw()) text = 'Draw — neither realm prevails.';
+    else if (game.in_check()) text = (game.turn() === 'w' ? 'Your king is in check!' : 'Shadow king is in check!');
+    else if (thinking) text = 'The Shadow King is considering a move…';
+    else text = game.turn() === 'w' ? 'Your move, Last Heir.' : (mode === 'local' ? 'Shadow side to move.' : 'The Shadow King awaits.');
+    statusEl.textContent = text;
+    document.getElementById('bottomCaption').textContent = game.turn() === 'w' ? 'Your turn to shape fate' : (mode === 'local' ? 'Black to move' : 'The Shadow King is thinking');
+    if (game.game_over()) {
+      showMessage(text);
+      if (game.in_checkmate()) flashLightning();
+    }
+  }
+  function onSquareClick(square) {
+    if (thinking || game.game_over()) return;
+    if (mode === 'ai' && game.turn() === 'b') return;
+    const clickedPiece = pieceAt(square);
+    if (selectedSquare && legalMoves.some(m => m.to === square)) {
+      const move = game.move({ from:selectedSquare, to:square, promotion:'q' });
+      if (move) {
+        lastMove = {from:move.from,to:move.to};
+        if (move.captured) {
+          (move.color === 'w' ? capturedByWhite : capturedByBlack).push(glyph[move.color === 'w' ? 'b' : 'w'][move.captured]);
+          flashLightning();
+        }
+        selectedSquare = null; legalMoves = [];
+        renderBoard(); renderHistory(); renderCaptured();
+        afterPlayerMove();
+      }
+      return;
+    }
+    if (clickedPiece && clickedPiece.color === game.turn()) {
+      selectedSquare = square;
+      legalMoves = game.moves({square, verbose:true});
+      renderBoard();
+    } else {
+      selectedSquare = null; legalMoves = []; renderBoard();
+    }
+  }
+  function afterPlayerMove() {
+    if (game.game_over()) { renderBoard(); return; }
+    if (mode === 'ai' && game.turn() === 'b') {
+      thinking = true; renderBoard();
+      setTimeout(() => { makeAIMove(); }, 220);
+    }
+  }
+  function makeAIMove() {
+    if (game.game_over()) { thinking = false; renderBoard(); return; }
+    const depth = Number(difficultySelect.value);
+    const move = chooseBestMove(depth);
+    if (move) {
+      const result = game.move(move);
+      if (result) {
+        lastMove = {from:result.from,to:result.to};
+        if (result.captured) {
+          capturedByBlack.push(glyph.w[result.captured]);
+          flashLightning();
+        }
+      }
+    }
+    thinking = false; selectedSquare = null; legalMoves = [];
+    renderBoard(); renderHistory(); renderCaptured();
+  }
+  function chooseBestMove(depth) {
+    const moves = game.moves({verbose:true});
+    if (!moves.length) return null;
+    // Small random variation at the easiest level.
+    if (depth === 1 && Math.random() < .3) {
+      const m = moves[Math.floor(Math.random()*moves.length)];
+      return {from:m.from,to:m.to,promotion:'q'};
+    }
+    let bestScore = -Infinity, bestMoves = [];
+    moves.forEach(move => {
+      game.move({from:move.from,to:move.to,promotion:'q'});
+      const score = -minimax(depth - 1, -Infinity, Infinity, false);
+      game.undo();
+      if (score > bestScore) { bestScore = score; bestMoves = [move]; }
+      else if (score === bestScore) bestMoves.push(move);
+    });
+    const picked = bestMoves[Math.floor(Math.random()*bestMoves.length)] || moves[0];
+    return {from:picked.from,to:picked.to,promotion:'q'};
+  }
+  function minimax(depth, alpha, beta, maximizing) {
+    if (depth <= 0 || game.game_over()) return evaluatePosition();
+    const moves = game.moves({verbose:true});
+    if (maximizing) {
+      let best = -Infinity;
+      for (const m of moves) {
+        game.move({from:m.from,to:m.to,promotion:'q'});
+        best = Math.max(best, minimax(depth-1, alpha, beta, false));
+        game.undo(); alpha = Math.max(alpha,best);
+        if (beta <= alpha) break;
+      }
+      return best;
+    } else {
+      let best = Infinity;
+      for (const m of moves) {
+        game.move({from:m.from,to:m.to,promotion:'q'});
+        best = Math.min(best, minimax(depth-1, alpha, beta, true));
+        game.undo(); beta = Math.min(beta,best);
+        if (beta <= alpha) break;
+      }
+      return best;
+    }
+  }
+  function evaluatePosition() {
+    if (game.in_checkmate()) return game.turn() === 'b' ? 100000 : -100000;
+    if (game.in_draw()) return 0;
+    let score = 0;
+    const b = game.board();
+    for (let r=0;r<8;r++) for(let f=0;f<8;f++) {
+      const p = b[r][f]; if (!p) continue;
+      const val = pieceValue[p.type];
+      const center = 3.5 - (Math.abs(3.5-r) + Math.abs(3.5-f))/2;
+      const positional = p.type === 'p' ? (p.color === 'b' ? r : 7-r)*5 : center*4;
+      score += (p.color === 'b' ? 1 : -1) * (val + positional);
+    }
+    return score;
+  }
+  function renderHistory() {
+    const history = game.history({verbose:true});
+    if (!history.length) { historyEl.innerHTML = '<p class="empty-history">Your legend begins with the first move.</p>'; return; }
+    historyEl.innerHTML = '';
+    for (let i=0;i<history.length;i+=2) {
+      const row = document.createElement('div'); row.className = 'move-row';
+      const num = document.createElement('span'); num.className='move-number'; num.textContent = (i/2+1)+'.';
+      const white = document.createElement('span'); white.className='move-white'; white.textContent = history[i].san;
+      const black = document.createElement('span'); black.className='move-black'; black.textContent = history[i+1] ? history[i+1].san : '';
+      row.append(num,white,black); historyEl.appendChild(row);
+    }
+    historyEl.scrollTop = historyEl.scrollHeight;
+  }
+  function renderCaptured() {
+    youCapturedEl.textContent = capturedByWhite.join(' ') || '—';
+    aiCapturedEl.textContent = capturedByBlack.join(' ') || '—';
+    youCaptureCount.textContent = capturedByWhite.length;
+    aiCaptureCount.textContent = capturedByBlack.length;
+  }
+  function flashLightning() { lightning.classList.remove('flash'); void lightning.offsetWidth; lightning.classList.add('flash'); }
+  function resetGame() {
+    game.reset(); selectedSquare=null; legalMoves=[]; lastMove=null; capturedByWhite=[]; capturedByBlack=[]; thinking=false;
+    renderBoard(); renderHistory(); renderCaptured();
+  }
+  document.querySelectorAll('[data-theme-choice]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.themeChoice;
+      document.body.dataset.theme = theme;
+      document.querySelectorAll('[data-theme-choice]').forEach(b => b.classList.toggle('active', b === btn));
+      try { localStorage.setItem('forbiddenTheme',theme); } catch(e) {}
+    });
+  });
+  try {
+    const savedTheme = localStorage.getItem('forbiddenTheme');
+    if (savedTheme && ['violet','emerald','ice'].includes(savedTheme)) {
+      document.body.dataset.theme=savedTheme;
+      document.querySelectorAll('[data-theme-choice]').forEach(b => b.classList.toggle('active',b.dataset.themeChoice===savedTheme));
+    }
+  } catch(e) {}
+  opponentSelect.addEventListener('change', () => {
+    mode = opponentSelect.value;
+    onlineBox.classList.toggle('hidden',mode !== 'online');
+    document.getElementById('topPlayer').textContent = mode === 'local' ? 'THE OPPOSING HEIR' : 'THE SHADOW KING';
+    document.getElementById('topCaption').textContent = mode === 'local' ? 'Local two-player duel' : mode === 'online' ? 'Online mode not connected yet' : 'Computer opponent';
+    document.getElementById('topBadge').textContent = mode === 'local' ? 'P2' : mode === 'online' ? 'NET' : 'AI';
+    showMessage(mode === 'online' ? 'Online needs a realtime backend connection.' : mode === 'local' ? 'Local duel selected.' : 'The Shadow King is ready.');
+    resetGame();
+  });
+  document.getElementById('startBtn').addEventListener('click', () => {
+    if (mode === 'online') {
+      modalTitle.textContent='ONLINE REALM';
+      modalText.textContent='The visual room panel is ready, but live play is not connected yet. To play across devices, connect a Firebase Realtime Database or Supabase Realtime project.';
+      modal.classList.remove('hidden'); return;
+    }
+    resetGame(); showMessage(mode === 'ai' ? 'The Shadow King has entered the arena.' : 'The local duel begins.');
+  });
+  document.getElementById('resetBtn').addEventListener('click', resetGame);
+  document.getElementById('flipBtn').addEventListener('click', () => { flipped=!flipped; renderBoard(); });
+  document.getElementById('hintBtn').addEventListener('click', () => {
+    if (game.game_over() || thinking || (mode==='ai' && game.turn()==='b')) return showMessage('No hint is available right now.');
+    const moves=game.moves({verbose:true});
+    if (!moves.length) return;
+    const capture=moves.find(m=>m.captured);
+    const chosen=capture || moves[Math.floor(Math.random()*moves.length)];
+    selectedSquare=chosen.from; legalMoves=game.moves({square:chosen.from,verbose:true}); renderBoard();
+    showMessage(capture ? 'Hint: consider a capture.' : 'Hint: develop a piece toward the center.');
+  });
+  document.getElementById('copyRoom').addEventListener('click', async () => {
+    const code=document.getElementById('roomCode').value.trim() || 'MOON7';
+    try { await navigator.clipboard.writeText(code); showMessage('Room code copied. Online server still needs setup.'); }
+    catch(e) { showMessage('Room code: '+code); }
+  });
+  document.getElementById('helpBtn').addEventListener('click', () => {
+    modalTitle.textContent='HOW TO PLAY';
+    modalText.textContent='Tap a piece, then tap a highlighted square to move. Legal chess moves, check, checkmate, castling, en passant, and queen promotion are handled by the chess rules engine. The AI is a lightweight minimax opponent. Online play needs backend setup.';
+    modal.classList.remove('hidden');
+  });
+  document.getElementById('soundBtn').addEventListener('click', () => {
+    soundOn=!soundOn; document.getElementById('soundBtn').textContent=soundOn?'♫̸':'♫';
+    showMessage(soundOn ? 'Sound toggle selected (audio effects not wired yet).' : 'Sound toggle off.');
+  });
+  document.getElementById('closeModal').addEventListener('click', () => modal.classList.add('hidden'));
+  modal.addEventListener('click', e => { if(e.target===modal) modal.classList.add('hidden'); });
+  renderBoard(); renderHistory(); renderCaptured();
+})();
+  </script>
 </body>
-</html>
+    </html>
