@@ -1,189 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#100d18">
+
+    <meta name="description"
+          content="An ancient chess game hides a mystery. Every move reveals a secret.">
+
     <title>The Forbidden Checkmate</title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background:
-                radial-gradient(ellipse at top, #29203b 0%, #100d18 45%, #050508 100%);
-            color: #e8d9b5;
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            padding: 35px 15px;
-        }
-
-        .moon {
-            font-size: 35px;
-            color: #d8c28b;
-            text-shadow: 0 0 20px #b89bff;
-        }
-
-        h1 {
-            font-size: clamp(25px, 6vw, 42px);
-            letter-spacing: 3px;
-            margin: 15px 0 10px;
-            text-shadow: 0 0 18px #9c75c9;
-        }
-
-        .subtitle {
-            color: #aaa0b9;
-            font-size: 12px;
-            letter-spacing: 2px;
-            line-height: 2;
-            margin-bottom: 30px;
-        }
-
-        .divider {
-            width: 100px;
-            height: 1px;
-            background: #a68b56;
-            margin: 20px auto;
-        }
-
-        .intro {
-            max-width: 520px;
-            margin: 0 auto 30px;
-            line-height: 2;
-            font-size: 14px;
-            color: #d2c7db;
-        }
-
-        .board-frame {
-            max-width: 460px;
-            margin: auto;
-            padding: 8px;
-            border: 1px solid #806b48;
-            background: #15111d;
-            box-shadow: 0 0 30px #000, 0 0 25px #5c397333;
-        }
-
-        .chessboard {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            aspect-ratio: 1;
-            border: 1px solid #8c7754;
-        }
-
-        .square {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1;
-            font-family: serif;
-            font-size: clamp(22px, 6vw, 43px);
-        }
-
-        .light {
-            background: #d8c9aa;
-            color: #21162b;
-        }
-
-        .dark {
-            background: #45334f;
-            color: #f0e4c9;
-        }
-
-        .piece {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .piece:hover {
-            filter: drop-shadow(0 0 6px #d8bdff);
-        }
-
-        .message {
-            margin: 20px auto;
-            font-size: 12px;
-            color: #b8a7ca;
-            line-height: 2;
-        }
-
-        footer {
-            margin-top: 40px;
-            color: #786c86;
-            font-size: 10px;
-            letter-spacing: 2px;
-        }
-    </style>
+    <!-- External stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="moon">☾</div>
+    <main class="game-container">
 
-    <h1>THE FORBIDDEN CHECKMATE</h1>
+        <div class="moon" aria-hidden="true">☾</div>
 
-    <div class="subtitle">
-        AN ANCIENT GAME • A FORGOTTEN MYSTERY
-    </div>
+        <header>
+            <h1>THE FORBIDDEN CHECKMATE</h1>
 
-    <div class="divider"></div>
+            <p class="subtitle">
+                AN ANCIENT GAME • A FORGOTTEN MYSTERY
+            </p>
+        </header>
 
-    <p class="intro">
-        Beyond the last candle, where forgotten spells whisper
-        and shadows remember, an ancient chessboard awaits
-        its final player.
-        <br><br>
-        Every move reveals a secret.
-        Every piece tells a story.
-    </p>
+        <div class="divider"></div>
 
-    <div class="board-frame">
-        <div class="chessboard" id="board"></div>
-    </div>
+        <section class="story" aria-label="The story">
 
-    <p class="message">
-        The game has waited centuries for you.<br>
-        Make your first move.
-    </p>
+            <p class="intro">
+                Beyond the last candle, where forgotten spells
+                whisper and shadows remember, an ancient
+                chessboard awaits its final player.
+            </p>
 
-    <footer>
-        SOME SECRETS SHOULD NEVER BE UNCOVERED
-    </footer>
+            <p class="intro">
+                Every move reveals a secret.
+                Every piece tells a story.
+            </p>
 
-    <script>
-        const board = document.getElementById("board");
+        </section>
 
-        const pieces = [
-            "♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜",
-            "♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟",
-            "", "", "", "", "", "", "", "",
-            "", "", "", "", "", "", "", "",
-            "", "", "", "", "", "", "", "",
-            "", "", "", "", "", "", "", "",
-            "♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙",
-            "♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"
-        ];
+        <section class="game" aria-label="Chess game">
 
-        pieces.forEach((piece, index) => {
-            const square = document.createElement("div");
+            <div class="game-status" aria-live="polite">
+                <span class="status-icon">✧</span>
 
-            const row = Math.floor(index / 8);
-            const col = index % 8;
+                <p class="message">
+                    The ancient game awaits...
+                </p>
+            </div>
 
-            square.className =
-                "square " + ((row + col) % 2 === 0 ? "light" : "dark");
+            <div class="board-frame">
 
-            if (piece) {
-                square.textContent = piece;
-                square.classList.add("piece");
-            }
+                <div
+                    class="chessboard"
+                    id="board"
+                    role="group"
+                    aria-label="Chessboard">
+                </div>
 
-            board.appendChild(square);
-        });
-    </script>
+            </div>
+
+            <p class="turn-message">
+                WHITE MOVES FIRST
+            </p>
+
+        </section>
+
+        <footer>
+            SOME SECRETS SHOULD NEVER BE UNCOVERED
+        </footer>
+
+    </main>
+
+    <!-- Chess rules library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+    <!-- Our game logic -->
+    <script src="script.js"></script>
 
 </body>
+
 </html>
